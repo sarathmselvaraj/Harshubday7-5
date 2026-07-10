@@ -27,10 +27,12 @@ document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 /* ── ENVELOPE MODAL ── */
 function openEnvelope(){
   document.getElementById('envModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
   launchFireworks();
 }
 function closeEnvelope(){
   document.getElementById('envModal').classList.remove('open');
+  document.body.style.overflow = '';
 }
 document.getElementById('envModal').addEventListener('click',function(e){
   if(e.target===this) closeEnvelope();
