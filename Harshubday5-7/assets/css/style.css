@@ -951,3 +951,72 @@
     font-size: .68rem;
   }
 }
+
+
+/* =====================================================
+   Mobile letter quotation + surprise modal close fixes
+===================================================== */
+
+/* Keep the close icon above the full-bleed modal image */
+#envModal .modal-close {
+  z-index: 50;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .94);
+  border: 1px solid rgba(107, 26, 42, .18);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, .18);
+  color: var(--wine);
+  opacity: 1;
+  line-height: 1;
+}
+
+#envModal .modal-close-bottom {
+  display: none;
+  width: 100%;
+  margin-top: 1.25rem;
+  padding: .85rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--wine);
+  color: #fff;
+  font-family: 'Jost', sans-serif;
+  font-size: .9rem;
+  letter-spacing: .05em;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  /* The quotation gets its own space instead of covering "My dearest love" */
+  .letter-wrap {
+    padding: 5.25rem 1.15rem 2rem;
+  }
+
+  .letter-wrap::before {
+    top: .8rem;
+    left: 1.15rem;
+    font-size: 4.8rem;
+    line-height: 1;
+  }
+
+  .letter-body {
+    position: relative;
+    z-index: 1;
+    padding-top: 0;
+  }
+
+  /* Top icon remains visible, and a clear bottom button is also provided */
+  #envModal .modal-close {
+    position: sticky;
+    top: .65rem;
+    float: right;
+    margin: 0 .1rem -44px 0;
+  }
+
+  #envModal .modal-close-bottom {
+    display: block;
+  }
+}
