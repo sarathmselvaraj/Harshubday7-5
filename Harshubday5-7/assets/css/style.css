@@ -1,0 +1,953 @@
+:root {
+    --ink:    #1a0a0e;
+    --rose:   #c94060;
+    --blush:  #f2c4ce;
+    --wine:   #6b1a2a;
+    --cream:  #fdf6f0;
+    --gold:   #c9924a;
+    --mist:   #f9eef2;
+  }
+
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ctext y='20' font-size='20'%3E🌸%3C/text%3E%3C/svg%3E") 12 12, auto;
+    overflow-x: hidden;
+  }
+
+  /* ─── CANVAS FIREWORKS ─── */
+  #fw { position:fixed; inset:0; pointer-events:none; z-index:9999; }
+
+  /* ─── FLOATING PETALS ─── */
+  #petals { position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+  .petal {
+    position:absolute; bottom:-40px;
+    font-size:1rem; opacity:0;
+    animation: riseUp linear infinite;
+  }
+  @keyframes riseUp {
+    0%   { transform:translateY(0) rotate(0deg) scale(0.8); opacity:0; }
+    8%   { opacity:.7; }
+    92%  { opacity:.3; }
+    100% { transform:translateY(-105vh) rotate(720deg) scale(1.1); opacity:0; }
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position:relative; min-height:100vh;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; padding:2rem;
+    background: linear-gradient(170deg, #fff0f4 0%, #fce9d5 55%, #fde0e8 100%);
+    overflow:hidden;
+  }
+  #hero::after {
+    content:'';
+    position:absolute; inset:0;
+    background:
+      radial-gradient(ellipse 60% 50% at 20% 20%, rgba(201,64,96,.07), transparent),
+      radial-gradient(ellipse 50% 60% at 85% 85%, rgba(201,146,74,.09), transparent);
+  }
+  .ring {
+    position:absolute; border-radius:50%;
+    border:1px dashed rgba(201,64,96,.12);
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    animation:spin linear infinite;
+  }
+  @keyframes spin { to { transform:translate(-50%,-50%) rotate(360deg); } }
+
+  .hero-eyebrow {
+    font-family:'Great Vibes', cursive;
+    font-size:1.6rem; color:var(--gold);
+    opacity:0; animation:fd .8s .3s forwards;
+    position:relative; z-index:2;
+  }
+  .hero-name {
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(3.5rem,10vw,8rem);
+    font-weight:600; line-height:1;
+    color:var(--rose);
+    text-shadow:0 6px 40px rgba(201,64,96,.18);
+    opacity:0; animation:fd .9s .5s forwards;
+    position:relative; z-index:2;
+  }
+  .hero-sub {
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-size:clamp(1.2rem,3vw,1.8rem);
+    color:var(--wine); margin-top:.6rem;
+    opacity:0; animation:fd .9s .8s forwards;
+    position:relative; z-index:2;
+  }
+
+  /* ─── HERO PHOTO FRAME ─── */
+  .hero-photo-wrap {
+    margin: 2rem 0 1rem;
+    position:relative; z-index:2;
+    opacity:0; animation:popIn .8s 1s forwards;
+  }
+  .hero-photo-frame {
+    width:180px; height:180px; border-radius:50%;
+    border:4px solid var(--blush);
+    box-shadow:0 0 0 8px rgba(242,196,206,.3), 0 20px 50px rgba(201,64,96,.2);
+    overflow:hidden;
+    position:relative;
+  }
+
+  /* 📸 IMAGE SLOT 1 — HERO PROFILE PHOTO
+     Replace the src below with your girlfriend's photo path.
+     Example: src="photos/her_photo.jpg"
+     Ideal size: 400×400 px (square / portrait)                 */
+  .hero-photo-frame img {
+    width:100%; height:100%; object-fit:cover;
+  }
+
+  .hero-photo-placeholder {
+    width:100%; height:100%;
+    background:linear-gradient(135deg,#f9d0da,#fce5d0);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    font-size:3rem;
+  }
+  .hero-photo-placeholder span {
+    font-family:'Jost',sans-serif;
+    font-size:.65rem; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--wine);
+    margin-top:.4rem; opacity:.6;
+  }
+
+  .hero-cta {
+    margin-top:2rem; z-index:2; position:relative;
+    opacity:0; animation:fd .8s 1.4s forwards;
+  }
+  .hero-cta a {
+    font-size:.78rem; letter-spacing:.2em; text-transform:uppercase;
+    color:var(--rose); text-decoration:none;
+    border-bottom:1px solid var(--blush); padding-bottom:2px;
+  }
+
+  @keyframes fd { from{opacity:0;transform:translateY(-18px)} to{opacity:1;transform:none} }
+  @keyframes popIn { from{opacity:0;transform:scale(.4)} to{opacity:1;transform:scale(1)} }
+
+  /* ─── SHARED SECTION ─── */
+  section { position:relative; padding:5.5rem 1.5rem; z-index:2; }
+  .container { max-width:1080px; margin:0 auto; }
+  .eyebrow {
+    display:block; text-align:center;
+    font-family:'Great Vibes', cursive;
+    font-size:1.4rem; color:var(--gold);
+    margin-bottom:.4rem;
+  }
+  .sec-title {
+    font-family:'Cormorant Garamond', serif;
+    font-size:clamp(1.8rem,3.5vw,2.8rem);
+    font-style:italic; text-align:center;
+    color:var(--ink); margin-bottom:2.8rem;
+  }
+
+  /* ─── LETTER ─── */
+  #letter { background:var(--mist); }
+  .letter-wrap {
+    max-width:700px; margin:0 auto;
+    background:#fff;
+    border:1px solid var(--blush);
+    border-radius:20px; padding:3.5rem;
+    box-shadow:0 16px 50px rgba(201,64,96,.07);
+    position:relative;
+  }
+  .letter-wrap::before {
+    content:'❝';
+    font-family:'Cormorant Garamond',serif;
+    font-size:6rem; color:var(--blush);
+    position:absolute; top:.5rem; left:1.5rem;
+    line-height:1;
+  }
+  .letter-body {
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-size:1.15rem;
+    line-height:2; color:var(--wine);
+  }
+  .letter-sig {
+    font-family:'Great Vibes', cursive;
+    font-size:2rem; color:var(--rose);
+    text-align:right; margin-top:1.5rem;
+  }
+
+  /* ─── MEMORY GALLERY ─── */
+  #gallery { background:var(--ink); }
+  #gallery .eyebrow { color:var(--gold); }
+  #gallery .sec-title { color:#fff; }
+  .gallery-intro {
+    text-align:center; max-width:540px; margin:0 auto 3rem;
+    font-family:'Great Vibes', cursive;
+    font-size:1.25rem; color:var(--blush);
+  }
+
+  .photo-grid {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:auto;
+    gap:1rem; max-width:860px; margin:0 auto;
+  }
+
+  .p-slot {
+    border-radius:14px; overflow:hidden;
+    position:relative;
+    background:linear-gradient(135deg,#2d1118,#451928);
+    border:2px solid rgba(255,255,255,.05);
+    transition:transform .35s, box-shadow .35s;
+  }
+  .p-slot:hover {
+    transform:scale(1.04) rotate(-1deg);
+    box-shadow:0 20px 50px rgba(201,64,96,.35);
+    border-color:var(--rose);
+  }
+  .p-slot img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* aspect ratios */
+  .p-slot.tall  { aspect-ratio:3/4; }
+  .p-slot.wide  { grid-column:span 2; aspect-ratio:16/9; }
+  .p-slot.sq    { aspect-ratio:1/1; }
+  .p-slot.hero2 { grid-column:span 2; aspect-ratio:16/8; }
+
+  .p-caption {
+    position:absolute; bottom:0; left:0; right:0;
+    background:linear-gradient(transparent 10%,rgba(0,0,0,.5));
+    padding:1.5rem 1rem .8rem;
+    font-family:'Great Vibes', cursive;
+    font-size:1rem; color:var(--blush);
+    opacity:0; transition:opacity .3s;
+    text-align:center;
+  }
+  .p-slot:hover .p-caption { opacity:1; }
+
+  .p-placeholder {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    text-align:center; padding:1rem;
+    pointer-events:none;
+  }
+  .p-placeholder .icon { font-size:2.2rem; opacity:.5; margin-bottom:.5rem; }
+  .p-placeholder .slot-label {
+    font-size:.7rem; letter-spacing:.12em;
+    text-transform:uppercase; color:rgba(255,255,255,.35);
+  }
+  .p-placeholder .hint {
+    font-size:.6rem; color:rgba(255,255,255,.2);
+    margin-top:.3rem; font-style:italic;
+  }
+
+  /* ─── TIMELINE ─── */
+  #timeline { background:var(--cream); }
+  .tl-wrap { max-width:680px; margin:0 auto; position:relative; }
+  .tl-wrap::before {
+    content:''; position:absolute;
+    left:50%; top:0; bottom:0;
+    width:1px; background:var(--blush);
+    transform:translateX(-50%);
+  }
+  .tl-item {
+    display:flex; gap:2rem;
+    align-items:flex-start;
+    margin-bottom:3rem;
+    position:relative;
+  }
+  .tl-item:nth-child(even) { flex-direction:row-reverse; text-align:right; }
+  .tl-dot {
+    flex-shrink:0;
+    width:14px; height:14px; border-radius:50%;
+    background:var(--rose); border:3px solid var(--cream);
+    box-shadow:0 0 0 2px var(--rose);
+    position:relative; z-index:1;
+    margin-top:.3rem;
+  }
+  .tl-card {
+    background:#fff; border-radius:14px;
+    padding:1.2rem 1.5rem;
+    box-shadow:0 4px 20px rgba(0,0,0,.06);
+    border:1px solid var(--blush);
+    flex:1;
+  }
+  .tl-date {
+    font-size:.7rem; letter-spacing:.15em;
+    text-transform:uppercase; color:var(--gold);
+    margin-bottom:.3rem;
+  }
+  .tl-text {
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-size:1rem;
+    line-height:1.7; color:var(--wine);
+  }
+
+  /* ─── TIMELINE PHOTO SLOT ─── */
+  .tl-photo {
+    width:100%; border-radius:10px;
+    margin-top:.8rem; overflow:hidden;
+    aspect-ratio:4/3;
+    background:linear-gradient(135deg,#fce0e8,#fdebd0);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.7rem; color:#bbb; letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+  .tl-photo img { width:100%; height:100%; object-fit:cover; display:block; }
+
+  /* ─── QUOTES ─── */
+  #quotes { background:linear-gradient(140deg,#fff0f4,#fdf7ee); }
+  .q-grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:1.3rem;
+  }
+  .q-card {
+    background:#fff; border-radius:16px; padding:1.8rem;
+    border-left:4px solid var(--rose);
+    box-shadow:0 4px 18px rgba(0,0,0,.05);
+    transition:transform .3s, box-shadow .3s;
+  }
+  .q-card:hover { transform:translateY(-6px); box-shadow:0 14px 40px rgba(201,64,96,.12); }
+  .q-card:nth-child(2n) { border-left-color:var(--gold); }
+  .q-card:nth-child(3n) { border-left-color:#a884b0; }
+  .q-emoji { font-size:1.8rem; margin-bottom:.7rem; display:block; }
+  .q-text {
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-size:1rem;
+    line-height:1.75; color:var(--wine);
+  }
+
+  /* ─── SURPRISE ENVELOPE ─── */
+  #surprise { background:var(--wine); text-align:center; }
+  #surprise .eyebrow { color:var(--gold); }
+  #surprise .sec-title { color:#fff; }
+  .env-wrap { max-width:480px; margin:0 auto; }
+  .envelope {
+    cursor:pointer;
+    display:inline-flex; flex-direction:column;
+    align-items:center; gap:1rem;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:24px; padding:3rem 2.5rem;
+    transition:transform .3s, background .3s;
+  }
+  .envelope:hover { transform:scale(1.04); background:rgba(255,255,255,.13); }
+  .env-icon { font-size:4rem; transition:transform .4s; }
+  .envelope:hover .env-icon { transform:rotate(-10deg) scale(1.1); }
+  .env-label {
+    font-family:'Great Vibes', cursive;
+    font-size:1.6rem; color:var(--blush);
+  }
+  .env-hint { font-size:.8rem; color:rgba(255,255,255,.4); letter-spacing:.1em; text-transform:uppercase; }
+
+  /* modal */
+  #envModal {
+    display:none; position:fixed; inset:0; z-index:1000;
+    background:rgba(20,5,10,.75); backdrop-filter:blur(8px);
+    align-items:center; justify-content:center;
+  }
+  #envModal.open { display:flex; }
+  .modal-card {
+    background:var(--cream); border-radius:24px;
+    padding:3rem 2.5rem; max-width:500px; width:90%;
+    text-align:center; position:relative;
+    border:1px solid var(--blush);
+    animation:popIn .5s forwards;
+  }
+
+  /* 📸 IMAGE SLOT 7 — SURPRISE MODAL PHOTO
+     This appears when she clicks "Open Your Surprise".
+     Replace src with a special/cute couple photo.
+     Recommended size: 600×400 px                              */
+  .modal-photo {
+    width:100%; border-radius:14px;
+    overflow:hidden; margin-bottom:1.5rem;
+    aspect-ratio:3/2;
+    background:linear-gradient(135deg,#fce0e8,#fdebd0);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .modal-photo img { width:100%; height:100%; object-fit:cover; }
+  .modal-photo-placeholder {
+    font-size:.75rem; color:#bbb; letter-spacing:.1em;
+    text-transform:uppercase; text-align:center; padding:2rem;
+  }
+  .modal-photo-placeholder .mi { font-size:3rem; display:block; margin-bottom:.5rem; }
+
+  .modal-msg {
+    font-family:'Cormorant Garamond', serif;
+    font-style:italic; font-size:1.15rem;
+    line-height:1.85; color:var(--wine);
+    margin-bottom:1.2rem;
+  }
+  .modal-sig { font-family:'Great Vibes', cursive; font-size:1.8rem; color:var(--rose); }
+  .modal-close {
+    position:absolute; top:1rem; right:1.2rem;
+    background:none; border:none; font-size:1.4rem;
+    cursor:pointer; color:var(--wine); opacity:.5;
+    transition:opacity .2s;
+  }
+  .modal-close:hover { opacity:1; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background:var(--ink); color:rgba(255,255,255,.45);
+    text-align:center; padding:2.5rem 1rem;
+    font-size:.85rem;
+  }
+  footer .f-name {
+    font-family:'Great Vibes', cursive;
+    font-size:2rem; color:#fff; display:block;
+    margin-bottom:.4rem;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .7s,transform .7s; }
+  .reveal.in { opacity:1; transform:none; }
+
+  @media(max-width:600px){
+    .photo-grid { grid-template-columns:1fr 1fr; }
+    .p-slot.wide,.p-slot.hero2 { grid-column:span 2; }
+    .letter-wrap { padding:2rem 1.5rem; }
+    .tl-wrap::before { left:0; }
+    .tl-item, .tl-item:nth-child(even) { flex-direction:column; text-align:left; }
+  }
+
+/* =====================================================
+   Alignment + responsive fixes added
+   - Keeps the original birthday design same
+   - Fixes photo overlay placeholders
+   - Makes images align neatly on desktop and mobile
+===================================================== */
+.hero-photo-frame img {
+  display: block;
+}
+
+/* Hide placeholder text/icons when a real image is available */
+.hero-photo-frame img + .hero-photo-placeholder,
+.p-slot img + .p-placeholder,
+.modal-photo img + .modal-photo-placeholder {
+  display: none;
+}
+
+.photo-grid {
+  align-items: stretch;
+}
+
+.p-slot,
+.tl-photo,
+.modal-photo,
+.hero-photo-frame {
+  background: linear-gradient(135deg,#fce0e8,#fdebd0);
+}
+
+.p-slot img,
+.tl-photo img,
+.modal-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Prevent sections from touching screen edge on small screens */
+.container {
+  width: min(100%, 1080px);
+}
+
+@media (max-width: 768px) {
+  section {
+    padding: 4rem 1rem;
+  }
+
+  #hero {
+    min-height: 100svh;
+    padding: 2rem 1rem;
+  }
+
+  .hero-name {
+    font-size: clamp(3rem, 18vw, 5rem);
+  }
+
+  .hero-sub {
+    font-size: 1.15rem;
+    max-width: 92%;
+  }
+
+  .hero-photo-frame {
+    width: 155px;
+    height: 155px;
+  }
+
+  .photo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: .8rem;
+  }
+
+  .p-slot.hero2,
+  .p-slot.wide {
+    grid-column: span 2;
+  }
+
+  .tl-wrap {
+    padding-left: 14px;
+  }
+
+  .tl-wrap::before {
+    left: 7px;
+  }
+
+  .tl-item,
+  .tl-item:nth-child(even) {
+    flex-direction: row;
+    text-align: left;
+    gap: 1rem;
+  }
+
+  .tl-dot {
+    margin-left: 0;
+    margin-top: .8rem;
+  }
+
+  .tl-card {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .modal-card {
+    padding: 2rem 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .photo-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .p-slot.hero2,
+  .p-slot.wide {
+    grid-column: span 1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .p-slot.tall,
+  .p-slot.sq {
+    aspect-ratio: 4 / 3;
+  }
+
+  .letter-wrap {
+    padding: 2rem 1.1rem;
+  }
+
+  .letter-body {
+    font-size: 1.05rem;
+    line-height: 1.85;
+  }
+
+  .q-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .envelope {
+    width: 100%;
+    padding: 2.2rem 1rem;
+  }
+}
+
+
+/* =====================================================
+   Memory Gallery Old Layout + Neat Alignment
+   - Removes equal 12-grid layout
+   - Keeps the old mixed photo sizes: tall, square, wide, featured
+   - Desktop, tablet and mobile stay neatly aligned
+   - Mobile tap opens the photo in full view
+===================================================== */
+.mobile-gallery-note {
+  display: none;
+  text-align: center;
+  color: var(--blush);
+  font-size: .95rem;
+  margin: -1.8rem auto 2rem;
+  opacity: .9;
+}
+
+#gallery .photo-grid {
+  width: min(100%, 960px);
+  max-width: 960px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-rows: 120px;
+  grid-auto-flow: dense;
+  gap: 1rem;
+  align-items: stretch;
+}
+
+#gallery .p-slot {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Old style mixed photo sizes */
+#gallery .p-slot.tall {
+  grid-column: span 1;
+  grid-row: span 3;
+  aspect-ratio: auto;
+}
+
+#gallery .p-slot.sq {
+  grid-column: span 1;
+  grid-row: span 2;
+  aspect-ratio: auto;
+}
+
+#gallery .p-slot.wide,
+#gallery .p-slot.hero2 {
+  grid-column: span 2;
+  grid-row: span 2;
+  aspect-ratio: auto;
+}
+
+#gallery .p-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Caption visible on mobile, hover on desktop */
+#gallery .p-caption {
+  line-height: 1.25;
+}
+
+/* Mobile photo expand viewer */
+.mobile-photo-viewer {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 2, 5, .92);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.mobile-photo-viewer.open {
+  display: flex;
+}
+
+.mobile-photo-viewer img {
+  width: auto;
+  max-width: 94vw;
+  max-height: 82vh;
+  object-fit: contain;
+  border-radius: 18px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .55);
+  border: 2px solid rgba(255,255,255,.12);
+}
+
+.mobile-photo-viewer-caption {
+  position: fixed;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1.2rem;
+  text-align: center;
+  color: var(--blush);
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.35rem;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.mobile-photo-viewer-close {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255,255,255,.16);
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  #gallery .photo-grid {
+    width: min(100%, 760px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 115px;
+    gap: .9rem;
+  }
+
+  #gallery .p-slot.wide,
+  #gallery .p-slot.hero2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-gallery-note {
+    display: block;
+  }
+
+  #gallery .photo-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 92px;
+    gap: .75rem;
+  }
+
+  #gallery .p-slot.tall {
+    grid-column: span 1;
+    grid-row: span 3;
+  }
+
+  #gallery .p-slot.sq {
+    grid-column: span 1;
+    grid-row: span 2;
+  }
+
+  #gallery .p-slot.wide,
+  #gallery .p-slot.hero2 {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  #gallery .p-slot {
+    cursor: zoom-in;
+  }
+
+  #gallery .p-slot:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  #gallery .p-caption {
+    opacity: 1;
+    padding: 1.7rem .55rem .55rem;
+    font-size: .88rem;
+  }
+}
+
+@media (max-width: 420px) {
+  #gallery .photo-grid {
+    grid-auto-rows: 84px;
+    gap: .65rem;
+  }
+
+  #gallery .p-caption {
+    font-size: .78rem;
+  }
+}
+
+
+/* =====================================================
+   Final image fit fixes
+   - Envelope surprise photo shows fully without crop
+   - Tablet and mobile gallery click-to-view support
+   - Gallery tile sizes remain unchanged
+===================================================== */
+#envModal .modal-card {
+  width: min(92vw, 560px);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+#envModal .modal-photo {
+  aspect-ratio: auto;
+  min-height: 220px;
+  max-height: 58vh;
+  padding: .6rem;
+  background: linear-gradient(135deg,#fff7f9,#fdebd0);
+}
+
+#envModal .modal-photo img {
+  width: 100%;
+  height: auto;
+  max-height: 54vh;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 12px;
+}
+
+/* keep gallery tile dimensions same, but show image centered nicely */
+#gallery .p-slot img,
+.tl-photo img {
+  object-position: center center;
+}
+
+@media (max-width: 1024px) {
+  #gallery .p-slot {
+    cursor: zoom-in;
+  }
+
+  #gallery .p-slot:hover {
+    transform: none;
+    box-shadow: none;
+    border-color: rgba(255,255,255,.05);
+  }
+}
+
+@media (max-width: 768px) {
+  #envModal .modal-card {
+    width: 94vw;
+    padding: 1.4rem 1rem 1.6rem;
+    max-height: 92vh;
+  }
+
+  #envModal .modal-photo {
+    min-height: 180px;
+    max-height: 50vh;
+  }
+
+  #envModal .modal-photo img {
+    max-height: 46vh;
+  }
+}
+
+
+/* =====================================================
+   FINAL OVERRIDES - tablet/mobile gallery + envelope photo
+   - keep desktop gallery layout feeling on tablet/mobile
+   - do not change gallery photo sizes/layout types
+   - surprise envelope image should reach card edges without side gaps
+===================================================== */
+
+/* Envelope photo: full width inside modal, no left/right space */
+#envModal .modal-card {
+  width: min(92vw, 560px);
+  max-height: 92vh;
+  overflow-y: auto;
+}
+
+#envModal .modal-photo {
+  width: calc(100% + 5rem);
+  margin: -3rem -2.5rem 1.35rem;
+  border-radius: 24px 24px 0 0;
+  overflow: hidden;
+  min-height: 0;
+  max-height: none;
+  padding: 0;
+  background: transparent;
+  display: block;
+}
+
+#envModal .modal-photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: none;
+  object-fit: contain;
+  object-position: center center;
+  border-radius: 0;
+}
+
+/* Tablet: keep the same 3-column mixed gallery feel like desktop */
+@media (max-width: 1024px) {
+  .mobile-gallery-note {
+    display: block;
+  }
+
+  #gallery .photo-grid {
+    width: min(100%, 900px);
+    max-width: 900px;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: 110px !important;
+    gap: .85rem !important;
+  }
+
+  #gallery .p-slot.tall {
+    grid-column: span 1 !important;
+    grid-row: span 3 !important;
+  }
+
+  #gallery .p-slot.sq {
+    grid-column: span 1 !important;
+    grid-row: span 2 !important;
+  }
+
+  #gallery .p-slot.wide,
+  #gallery .p-slot.hero2 {
+    grid-column: span 2 !important;
+    grid-row: span 2 !important;
+  }
+
+  #gallery .p-slot {
+    cursor: zoom-in;
+  }
+
+  #gallery .p-caption {
+    opacity: 0;
+    font-size: .82rem;
+    padding: 2rem .7rem .7rem;
+  }
+}
+
+/* Mobile: still show the same mixed layout, but tighter sizes */
+@media (max-width: 768px) {
+  #gallery .photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: 86px !important;
+    gap: .6rem !important;
+  }
+
+  #gallery .p-slot.tall {
+    grid-column: span 1 !important;
+    grid-row: span 3 !important;
+  }
+
+  #gallery .p-slot.sq {
+    grid-column: span 1 !important;
+    grid-row: span 2 !important;
+  }
+
+  #gallery .p-slot.wide,
+  #gallery .p-slot.hero2 {
+    grid-column: span 2 !important;
+    grid-row: span 2 !important;
+  }
+
+  #gallery .p-caption {
+    opacity: 0;
+    font-size: .75rem;
+    padding: 1.5rem .45rem .45rem;
+  }
+
+  #envModal .modal-card {
+    width: 94vw;
+    max-height: 94vh;
+    padding: 1.5rem 1rem 1.6rem;
+  }
+
+  #envModal .modal-photo {
+    width: calc(100% + 2rem);
+    margin: -1.5rem -1rem 1rem;
+    border-radius: 20px 20px 0 0;
+  }
+}
+
+@media (max-width: 480px) {
+  #gallery .photo-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-rows: 74px !important;
+    gap: .5rem !important;
+  }
+
+  #gallery .p-slot {
+    border-radius: 12px;
+  }
+
+  #gallery .p-caption {
+    font-size: .68rem;
+  }
+}
