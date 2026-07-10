@@ -1020,3 +1020,51 @@
     display: block;
   }
 }
+/* Birthday music floating button */
+.music-button {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: #6b1a2a;
+  color: white;
+  font-size: 1.4rem;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.music-button:hover {
+  transform: scale(1.1);
+}
+
+.music-button.playing {
+  animation: musicPulse 1.2s infinite;
+}
+
+@keyframes musicPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(201, 64, 96, 0.6);
+  }
+
+  70% {
+    box-shadow: 0 0 0 14px rgba(201, 64, 96, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(201, 64, 96, 0);
+  }
+}
+
+@media (max-width: 600px) {
+  .music-button {
+    right: 14px;
+    bottom: 14px;
+    width: 48px;
+    height: 48px;
+  }
+}
