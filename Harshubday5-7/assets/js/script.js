@@ -152,50 +152,30 @@ setTimeout(launchFireworks,1600);
 
 var birthdaySong = document.getElementById("birthdaySong");
 var musicButton = document.getElementById("musicButton");
-var musicStarted = false;
 
-/* Music volume */
-birthdaySong.volume = 0.5;
+if (birthdaySong && musicButton) {
+  birthdaySong.volume = 0.5;
 
-/* Mobile/browser autoplay block aagum.
-   User first time page click pannumbodhu song start aagum. */
-function startBirthdayMusic() {
-  if (musicStarted === false) {
-    birthdaySong.play()
-      .then(function () {
-        musicStarted = true;
-        musicButton.innerHTML = "🔊";
-        musicButton.classList.add("playing");
-      })
-      .catch(function () {
-        musicButton.innerHTML = "🎵";
-      });
-  }
+  musicButton.addEventListener("click", function (event) {
+    event.stopPropagation();
+
+    if (birthdaySong.paused) {
+      birthdaySong.play()
+        .then(function () {
+          musicButton.innerHTML = "🔊";
+          musicButton.classList.add("playing");
+          musicButton.setAttribute("aria-label", "Pause birthday music");
+        })
+        .catch(function (error) {
+          console.log("Music play error:", error);
+          musicButton.innerHTML = "🎵";
+        });
+    } else {
+      birthdaySong.pause();
+
+      musicButton.innerHTML = "🔇";
+      musicButton.classList.remove("playing");
+      musicButton.setAttribute("aria-label", "Play birthday music");
+    }
+  });
 }
-
-/* First click or touch la music start */
-document.addEventListener("click", startBirthdayMusic, {
-  once: true
-});
-
-document.addEventListener("touchstart", startBirthdayMusic, {
-  once: true
-});
-
-/* Music button play / pause */
-musicButton.addEventListener("click", function (event) {
-  event.stopPropagation();
-
-  if (birthdaySong.paused === true) {
-    birthdaySong.play();
-
-    musicButton.innerHTML = "🔊";
-    musicButton.classList.add("playing");
-    musicStarted = true;
-  } else {
-    birthdaySong.pause();
-
-    musicButton.innerHTML = "🔇";
-    musicButton.classList.remove("playing");
-  }
-});
